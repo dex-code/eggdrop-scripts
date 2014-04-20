@@ -13,7 +13,7 @@ namespace eval ::blackjack {
 	variable delay 10
 	variable insurance_time 10
 	variable turn_expire 60
-	variable debug 1
+	variable debug 0
 	variable file "balances.db"
 	variable compressed 1
 
@@ -212,6 +212,7 @@ proc ::blackjack::bet {nick host hand chan argv} {
 }
 
 proc ::blackjack::split_hand {nick host hand chan argv} {
+	::blackjack::msg "::split $nick"
 	if {![::blackjack::is_game_active] || [::blackjack::is_insurable]} {
 		return
 	}
@@ -224,10 +225,6 @@ proc ::blackjack::split_hand {nick host hand chan argv} {
 		if {[::blackjack::card_status $nick [::blackjack::get_player_cards $nick]]} {
 			::blackjack::next
 		}
-
-		
-	} else {
-	::blackjack::msg "debug: either game is not active or cant split"
 	}
 }
 
@@ -1124,4 +1121,4 @@ proc ::blackjack::split_line {max str} {
 }
 
 ::blackjack::load_players
-putlog "blackjack.tcl v $::::blackjack::version loaded (c) tbalboa, horgh 2010"
+putlog "blackjack.tcl v $::blackjack::version loaded (c) tbalboa, horgh 2010"
